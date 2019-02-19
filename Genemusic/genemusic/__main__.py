@@ -2,47 +2,32 @@ from .Population import Population
 from .Music import Music
 from random import randint
 from .config import NOTES
+from math import floor
 
 def run(size):
     population = Population(int(size))
-    population.calculateFitness()
+    population.calcFitness()
+    best = population.getFittest()
+    bestSoFar = best
     generations = 0
-    while population.getFittest().fitness < 197:
-        individualOne, individualTwo = selection(population)
-        newIndividual = crossover(individualOne, individualTwo)
-        
-        mutation(newIndividual)
 
-        population.calculateIndividualFitness(newIndividual) 
+    while generations < 1000:
         
-        population.addIndividual(newIndividual)
+        matingPool = population.getMatingPool(best)
+        population.breed(matingPool)
+        population.calcFitness()
+
+        # print("Generation", generations,"FITTEST", best.fitness)
+        best = population.getFittest()
         
-        population.killWeakest()
+        if bestSoFar.fitness < best.fitness:
+            bestSoFar = best
         
-#         # print("Best", population.getFittest().fitness)
-        print("Generation:", generations, "Fittest:", population.getFittest().fitness)
         generations += 1
-    
-    printNotes(population.getFittest().notes)
+        print("GENERATIONS: ", generations, "BEST FITNESS:", bestSoFar.fitness)
 
-def selection(population):
-    return population.getFittest(), population.getSecondFittest()
-
-def crossover(one, two):
-    newNotes = one.notes[slice(0, int(len(one.notes)/2))] + two.notes[slice(int(len(two.notes)/2), int(len(two.notes)))]
-    newIndividual = Music(one.scale, newNotes)
-    return newIndividual
-
-def mutation(individual):
-    for note in individual.notes:
-        prob = randint(0, 100)
-        if prob <= 10:
-           note.note = NOTES[randint(0, len(NOTES)-1)]
-           note.time = randint(1, 5)
-
-def printNotes(individual):
-        for note in individual:
-                print(note.note)
+    bestSoFar.printNotes()
+    print("FITNESS", bestSoFar.fitness)
 
 if __name__ == "__main__":
     import sys

@@ -1,20 +1,21 @@
 from .Music import Music
 from .Note import Note
-from .config import SCALES
 from .config import NOTES
+from .config import SCALES
 from random import randint
 from collections import Counter
+from math import floor
 import operator
 
 class Population:
     def __init__(self, size):
-        print("size", size)
+        self.size = size
         self.individuals = self.generatePopulation(size)
 
     def generateRandomNotes(self):
         notes = []
 
-        for i in range(30):
+        for _ in range(30):
             randomIndex = randint(0, len(NOTES)-1)
             randomTime = randint(1, 5)
             notes.append(Note(NOTES[randomIndex], randomTime))
@@ -22,16 +23,18 @@ class Population:
 
     def generatePopulation(self, size):
         population = []
-        for i in range(size):
+        for _ in range(size):
             notes = self.generateRandomNotes()
             population.append(Music("CMAJ", notes))
         return population
+    
+    def calcFitness(self):
+        i = 0
+        for ind in self.individuals:
+            ind.setFitness(self.calcIndFitness(ind))
+            i+=1
 
-    def calculateFitness(self): 
-        for individual in self.individuals:
-            self.calculateIndividualFitness(individual)
-
-    def calculateIndividualFitness(self, individual):
+    def calcIndFitness(self, individual):
         fitness = 0
         count = Counter()
         
@@ -40,65 +43,66 @@ class Population:
                 count[n.note] += 1
 
         scaleNotes = len(count)
-        
-        mostCommonNote = list(dict(count.most_common(1)).keys())[0]
-        mostCommonNoteCount = list(dict(count.most_common(1)).values())[0]
         total = sum(count.values())
-        # print("SCN", scaleNotes)
-        # fitness = (2.0/mostCommonNoteCount) * scaleNotes  
-        # print("total", total)
-        fitness = total * scaleNotes  
-        # print("FIT", fitness)
-
-        individual.setFitness(fitness)
-        # print(fitness)
+        fitness = total * scaleNotes
+        return fitness
 
     def getFittest(self):
         
         bestMusicIndex = 0
+        
         i = 0
         
         for music in self.individuals:
-            # print("A", self.individuals[bestMusicIndex].fitness, "B", music.fitness)
+            
             if music.fitness > self.individuals[bestMusicIndex].fitness:
                 bestMusicIndex = i
+
             i+=1
+
         # print(bestMusicIndex)
         return self.individuals[bestMusicIndex]
+
+    def breed(self, matingPool):
+        newPopulation = []
+        # print(len(newPopulation))
+        # print(best.fitness)
+        for _ in range(self.size):
+            indOne, indTwo = self.selection(matingPool)
+            child = self.crossover(indOne, indTwo)
+            child.mutate()
+            # child.setFitness()
+            newPopulation.append(child)
+
+        self.individuals = newPopulation
     
-    def getSecondFittest(self):
+    def getMatingPool(self, best):
+
+        matingPool = []
+        for individual in self.individuals:
+            newFitness = individual.fitness / best.fitness
+            for _ in range(floor(newFitness * 10)):
+                    matingPool.append(individual)
         
-        bestMusicIndex = 0
-        secondBestIndex = 1
-        i = 0
-        for music in self.individuals:
-            
-            if music.fitness > self.individuals[bestMusicIndex].fitness:
-                secondBestIndex = bestMusicIndex
-                bestMusicIndex = i
-            elif music.fitness > self.individuals[secondBestIndex].fitness:
-                secondBestIndex = i
+        return matingPool
 
-            i+=1
+    def selection(self, matingPool):
+            # print(best.fitness)
+        indOne = matingPool[randint(0, len(matingPool)-1)]
+        indTwo = matingPool[randint(0, len(matingPool)-1)] 
 
-        return self.individuals[secondBestIndex]
+        return indOne, indTwo
 
-    def killWeakest(self):
-        worstMusicIndex = 0
-        i = 0
-        for i in range(len(self.individuals)):
-            # print("Music", self.individuals[i].fitness, "Worst", self.individuals[worstMusicIndex].fitness)
-            if self.individuals[i].fitness < self.individuals[worstMusicIndex].fitness:
-                worstMusicIndex = i
-            
-            i+=1
-        # print("killed", worstMusicIndex)
-        # print("Weak", self.individuals[worstMusicIndex].fitness)
-        del self.individuals[worstMusicIndex]
-        # print("size", len(self.individuals))
-        
-    def addIndividual(self, individual):
-        self.individuals.append(individual)
+    def crossover(self, one, two):
+        midpoint = randint(0, len(one.notes))
+        newNotes = []
+        for i, _ in enumerate(one.notes):
+                if i > midpoint:
+                    newNotes.append(Note(one.notes[i].note, one.notes[i].time))
+                else:
+                    newNotes.append(Note(two.notes[i].note, two.notes[i].time))
 
-    def setIndividuals(self, individuals):
-        self.individuals = individuals
+    #     newNotes = one.notes[slice(0, int(len(one.notes)/2))] + two.notes[slice(int(len(two.notes)/2), int(len(two.notes)))]
+        newIndividual = Music(one.scale, newNotes)
+        # newIndividual.printNotes()
+        return newIndividual
