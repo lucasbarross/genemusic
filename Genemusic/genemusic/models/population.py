@@ -1,16 +1,16 @@
-from .Music import Music
-from .Note import Note
-from .config import NOTES
-from .config import SCALES
+from .music import Music
+from .note import Note
+from ..config import NOTES
+from ..config import SCALES
 from random import randint
 from collections import Counter
 from math import floor
-import operator
 
 class Population:
-    def __init__(self, size):
+    def __init__(self, size, scale):
         self.size = size
-        self.individuals = self.generatePopulation(size)
+        self.scale = scale
+        self.individuals = self.generatePopulation(size, scale)
 
     def generateRandomNotes(self):
         notes = []
@@ -21,11 +21,11 @@ class Population:
             notes.append(Note(NOTES[randomIndex], randomTime))
         return notes
 
-    def generatePopulation(self, size):
+    def generatePopulation(self, size, scale):
         population = []
         for _ in range(size):
             notes = self.generateRandomNotes()
-            population.append(Music("CMAJ", notes))
+            population.append(Music(notes))
         return population
     
     def calcFitness(self):
@@ -37,7 +37,7 @@ class Population:
         count = Counter()
         
         for n in individual.notes:
-            if n.note in SCALES[individual.scale]:
+            if n.note in SCALES[self.scale]:
                 count[n.note] += 1
 
         scaleNotes = len(count)
@@ -91,5 +91,5 @@ class Population:
                 else:
                     newNotes.append(Note(two.notes[i].note, two.notes[i].time))
 
-        newIndividual = Music(one.scale, newNotes)
+        newIndividual = Music(newNotes)
         return newIndividual

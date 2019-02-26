@@ -1,10 +1,8 @@
-from .config import SCALES
-from .config import NOTES
+from ..config import NOTES
 from random import randint
 
 class Music:
-    def __init__(self, scale, notes):
-        self.scale = scale
+    def __init__(self, notes):
         self.notes = notes
         self.fitness = 0
 
@@ -21,3 +19,9 @@ class Music:
     def printNotes(self):
         for note in self.notes:
             print(note.note, end=" ")
+
+    def getNotes(self):
+        notesCharacters = []
+        for note in self.notes:
+            notesCharacters.append(note.note)
+        return notesCharacters
