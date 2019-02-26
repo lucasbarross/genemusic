@@ -29,10 +29,8 @@ class Population:
         return population
     
     def calcFitness(self):
-        i = 0
         for ind in self.individuals:
             ind.setFitness(self.calcIndFitness(ind))
-            i+=1
 
     def calcIndFitness(self, individual):
         fitness = 0
@@ -48,36 +46,27 @@ class Population:
         return fitness
 
     def getFittest(self):
-        
         bestMusicIndex = 0
         
-        i = 0
-        
-        for music in self.individuals:
-            
+        for i, music in enumerate(self.individuals):
             if music.fitness > self.individuals[bestMusicIndex].fitness:
                 bestMusicIndex = i
 
-            i+=1
-
-        # print(bestMusicIndex)
         return self.individuals[bestMusicIndex]
 
     def breed(self, matingPool):
-        newPopulation = []
-        # print(len(newPopulation))
-        # print(best.fitness)
-        for _ in range(self.size):
+        best = self.getFittest()
+        newPopulation = [best]
+
+        for _ in range(self.size - 1):
             indOne, indTwo = self.selection(matingPool)
             child = self.crossover(indOne, indTwo)
             child.mutate()
-            # child.setFitness()
             newPopulation.append(child)
 
         self.individuals = newPopulation
     
     def getMatingPool(self, best):
-
         matingPool = []
         for individual in self.individuals:
             newFitness = individual.fitness / best.fitness
@@ -87,7 +76,6 @@ class Population:
         return matingPool
 
     def selection(self, matingPool):
-            # print(best.fitness)
         indOne = matingPool[randint(0, len(matingPool)-1)]
         indTwo = matingPool[randint(0, len(matingPool)-1)] 
 
@@ -96,13 +84,12 @@ class Population:
     def crossover(self, one, two):
         midpoint = randint(0, len(one.notes))
         newNotes = []
+
         for i, _ in enumerate(one.notes):
                 if i > midpoint:
                     newNotes.append(Note(one.notes[i].note, one.notes[i].time))
                 else:
                     newNotes.append(Note(two.notes[i].note, two.notes[i].time))
 
-    #     newNotes = one.notes[slice(0, int(len(one.notes)/2))] + two.notes[slice(int(len(two.notes)/2), int(len(two.notes)))]
         newIndividual = Music(one.scale, newNotes)
-        # newIndividual.printNotes()
         return newIndividual
