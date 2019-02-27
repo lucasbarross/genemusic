@@ -7,13 +7,14 @@ class History:
         self.max_generations = max_generations
         self.scale = scale
         self.bestOfEachGeneration = []
+        self.bestFitness = 0
 
     def run(self):
         population = Population(self.population_size, self.scale)
         population.calcFitness()
         best = population.getFittest()
         
-        bestOfEachGeneration = [best.getNotes()]
+        bestOfEachGeneration = [best.getInfo()]
         
         print("GENERATIONS: ", 0, "BEST FITNESS:", best.fitness)
 
@@ -27,12 +28,16 @@ class History:
 
             best = population.getFittest()
             
-            bestOfEachGeneration.append(best.getNotes())
+            bestOfEachGeneration.append(best.getInfo())
 
             generations += 1
             
             print("GENERATIONS: ", generations, "BEST FITNESS:", best.fitness)
 
         self.bestOfEachGeneration = bestOfEachGeneration
+        self.bestFitness = best.fitness
 
         return bestOfEachGeneration
+
+    def getBestFitness(self):
+        return self.bestFitness

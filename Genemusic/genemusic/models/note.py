@@ -8,3 +8,9 @@ class Note:
 
     def setTime(self, time):
         self.time = time
+    
+    def getNote(self):
+        return self.note
+
+    def getTime(self):
+        return self.time

@@ -20,8 +20,8 @@ class Music:
         for note in self.notes:
             print(note.note, end=" ")
 
-    def getNotes(self):
+    def getInfo(self):
         notesCharacters = []
         for note in self.notes:
-            notesCharacters.append(note.note)
+            notesCharacters.append({"note": note.getNote(), "time": note.getTime()})
         return notesCharacters

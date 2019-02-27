@@ -8,7 +8,7 @@ import time
 hostName = "localhost"
 hostPort = 3000
 
-class MyServer(BaseHTTPRequestHandler):
+class GenemusicServer(BaseHTTPRequestHandler):
     def parse_qs(self, qs):
         args = qs[1:]
         args = args.split("&")
@@ -50,6 +50,8 @@ class MyServer(BaseHTTPRequestHandler):
                     else:
                         history = History(pop, max_gen, scale)
                         bestOfEachGen = history.run()
+                        res["genCount"] = len(bestOfEachGen)
+                        res["fittest"] = history.getBestFitness()
                         res["result"] = bestOfEachGen
                 else:
                     raise ValueError("Population or Max generations or Scale params are missing")
@@ -67,12 +69,12 @@ class MyServer(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     # import sys
-    myServer = HTTPServer((hostName, hostPort), MyServer)
+    myServer = HTTPServer((hostName, hostPort), GenemusicServer)
     print(time.asctime(), "Server Starts - %s:%s" % (hostName, hostPort))
     try:
         myServer.serve_forever()
     except KeyboardInterrupt:
-        pass
+        raise
     # run(sys.argv[1])
 
     
