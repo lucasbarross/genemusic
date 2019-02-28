@@ -1,23 +1,28 @@
-const webpack = require("webpack")
-
 module.exports = {
-
-    entry: {
-        filename: "./app.js"
+    "mode": "development",
+    "entry": "src/app.js",
+    "output": {
+        "path": __dirname+'/dist',
+        "filename": "[name].[chunkhash:8].js"
     },
-    output: {
-        filename: "./dist/app.js"
-    },
-    module: {
-        loaders: [
+    "module": {
+        "rules": [
             {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loader: "babel-loader",
-                query: {
-                    presets: [
-                        ["es2015", { modules: false }]
-                    ]
+                "enforce": "pre",
+                "test": /\.(js|jsx)$/,
+                "exclude": /node_modules/,
+                "use": "eslint-loader"
+            },
+            {
+                "test": /\.js$/,
+                "exclude": /node_modules/,
+                "use": {
+                    "loader": "babel-loader",
+                    "options": {
+                        "presets": [
+                            "env"
+                        ]
+                    }
                 }
             }
         ]
