@@ -11,8 +11,13 @@
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
     "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.0",
     "eslint": "^5.14.1",
     "eslint-loader": "^2.1.2",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.5.0",
+    "rimraf": "^2.6.3",
+    "style-loader": "^0.23.1",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.2.1"
@@ -20,7 +25,7 @@
   "scripts": {
     "start:dev": "webpack-dev-server --inline --hot",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
+    "build": "rimraf dist && webpack"
   },
   "author": "",
   "license": "ISC"
