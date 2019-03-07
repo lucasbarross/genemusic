@@ -7,6 +7,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <button>Teste</button>
+    <div id="main">
+        <div class="flex-column">
+            <div class="margin-right width text-center">
+                <label>
+                    Max Generations
+                </label>
+                <input type="number" value="300" name="generations" class="form-input"> 
+            </div>
+            <div class="margin-right width text-center">
+                <label>
+                    Population
+                </label>
+                <input type="number" value="300" name="population" class="form-input">
+            </div>
+            <div class="margin-right text-center">
+                <label>
+                    Scale
+                </label>
+                <select class="form-select">
+                    <option>CMAJ</option>
+                </select>
+            </div>
+        </div>
+
+        <canvas id="piano"></canvas>
+
+        <button class="btn btn-success">Evolve</button>
+    </div>
 </body>
 </html>

@@ -1,5 +1,7 @@
 import Tone from "tone";
 import "./index.css";
+import "spectre.css/dist/spectre.min.css";
+
 //create a synth and connect it to the master output (your speakers)
 
 //play a middle 'C' for the duration of an 8th note

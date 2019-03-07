@@ -5,6 +5,7 @@
   "main": "webpack.config.js",
   "dependencies": {
     "axios": "^0.18.0",
+    "spectre.css": "^0.5.8",
     "tone": "^13.4.9"
   },
   "devDependencies": {
