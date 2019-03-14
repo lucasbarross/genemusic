@@ -5,6 +5,7 @@ from ..config import SCALES
 from random import randint
 from collections import Counter
 from math import floor
+import re
 
 class Population:
     def __init__(self, size, scale):
@@ -19,6 +20,7 @@ class Population:
             randomIndex = randint(0, len(NOTES)-1)
             randomTime = randint(1, 5)
             notes.append(Note(NOTES[randomIndex], randomTime))
+
         return notes
 
     def generatePopulation(self, size, scale):
@@ -35,10 +37,12 @@ class Population:
     def calcIndFitness(self, individual):
         fitness = 0
         count = Counter()
-        
+
+
         for n in individual.notes:
-            if n.note in SCALES[self.scale]:
-                count[n.note] += 1
+            crudeNode = re.sub('[1-6]', '', n.note)
+            if crudeNode in SCALES[self.scale]:
+                count[crudeNode] += 1
 
         scaleNotes = len(count)
         total = sum(count.values())

@@ -20,7 +20,7 @@ class History:
 
         generations = 1
 
-        while generations < self.max_generations and best.fitness < 210:
+        while generations < self.max_generations:
             
             matingPool = population.getMatingPool(best)
             population.breed(matingPool)
@@ -32,8 +32,9 @@ class History:
 
             generations += 1
             
-            print("GENERATIONS: ", generations, "BEST FITNESS:", best.fitness)
 
+        print("GENERATIONS: ", generations, "BEST FITNESS:", best.fitness)
+        
         self.bestOfEachGeneration = bestOfEachGeneration
         self.bestFitness = best.fitness
 
