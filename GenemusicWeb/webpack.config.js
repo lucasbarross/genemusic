@@ -1,5 +1,6 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 module.exports = {
     "mode": "development",
     "entry": ["./src/app.js"],
@@ -17,9 +18,10 @@ module.exports = {
                     "options": {
                         "presets": [
                             "@babel/preset-env"
-                        ]
+                        ],
+                        "plugins": ["@babel/plugin-proposal-class-properties"]
                     }
-                }
+                },
             },
             {
                 test: /\.css$/,
@@ -35,6 +37,6 @@ module.exports = {
             title: 'Custom template',
             // Load a custom template (lodash by default)
             template: 'src/index.html'
-        })
+        }),
     ]
 }
