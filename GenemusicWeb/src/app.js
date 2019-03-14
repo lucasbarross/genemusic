@@ -1,8 +1,9 @@
 import Tone from "tone";
 import "./index.css";
 import "spectre.css/dist/spectre.min.css";
+import Piano from "./piano";
 
-//create a synth and connect it to the master output (your speakers)
+new Piano(document.getElementById("piano"), { whiteKeys: { width: 30, height: 100 }, blackKeys: { width: 25, height: 50 }, numKeys: 7 }).draw()
 
 //play a middle 'C' for the duration of an 8th note
 document.querySelector("button").addEventListener("click", (evt) => {
