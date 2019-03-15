@@ -26,7 +26,7 @@
     "webpack-dev-server": "^3.2.1"
   },
   "scripts": {
-    "start:dev": "webpack-dev-server --inline --hot",
+    "start:dev": "webpack-dev-server --host 0.0.0.0 --inline --hot",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf dist && webpack"
   },

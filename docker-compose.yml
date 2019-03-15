@@ -1,0 +1,9 @@
+version: '3'
+services:
+  api:
+    build: ./Genemusic
+    volumes:
+     - ./Genemusic:/usr/src/genemusic-api
+    ports:
+     - "3000:3000"
+    command: ["python", "-m", "genemusic"]

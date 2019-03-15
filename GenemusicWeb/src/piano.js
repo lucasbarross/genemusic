@@ -1,4 +1,4 @@
-class Piano { 
+export default class Piano { 
 
     constructor(canvas, config) {
         this.canvas = canvas;
@@ -95,5 +95,3 @@ class Piano {
         }
     }
 }
-
-module.exports = Piano;

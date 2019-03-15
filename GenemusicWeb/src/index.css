@@ -18,9 +18,9 @@ body, html {
     flex-direction: column;
 }
 
-.flex-column {
+.generation-bar,
+.flex {
     display: flex;
-    flex-direction: row;
 }
 
 .margin-right {
@@ -38,4 +38,15 @@ body, html {
 .evolve {
     color: rgb(76, 209, 76) !important;
     border-color: rgb(76, 209, 76) !important;
+}
+
+.generation-bar {
+    justify-content: space-between;
+    width: 80%;
+}
+
+.generation {
+    width: 5px;
+    height: 10px;
+    background-color: grey;
 }
