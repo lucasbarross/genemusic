@@ -67,11 +67,9 @@ class GenemusicServer(BaseHTTPRequestHandler):
             print(e)
             self.send_error(500, str(e))
 
-if __name__ == "__main__":
-    # import sys
-    myServer = HTTPServer((hostName, hostPort), GenemusicServer)
-    print(time.asctime(), "Server Starts - %s:%s" % (hostName, hostPort))
-    try:
-        myServer.serve_forever()
-    except KeyboardInterrupt:
-        raise
+myServer = HTTPServer((hostName, hostPort), GenemusicServer)
+print(time.asctime(), "Server Starts - %s:%s" % (hostName, hostPort))
+try:
+    myServer.serve_forever()
+except KeyboardInterrupt:
+    raise

@@ -5,6 +5,7 @@ import "spectre.css/dist/spectre.min.css";
 import Piano from "./piano";
 import History from "./history";
 import axios from "axios";
+import "@babel/polyfill";
 
 class App {
 
@@ -58,5 +59,6 @@ const piano = new Piano(document.getElementById("piano"),
         blackKeys: { width: 25, height: 50 }, 
         numKeys: 7 
     });
+
 
 new App(piano);
